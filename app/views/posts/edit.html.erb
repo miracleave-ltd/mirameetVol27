@@ -1,0 +1,10 @@
+<div class="contents row">
+  <%= form_tag("/posts/#{@post.id}", method: :patch ) do %>
+    <h3>
+      編集する
+    </h3>
+    <input type="text" name="image" value="<%= @post.image %>" placeholder="Image Url" autofocus="true">
+    <textarea name="text" placeholder="text" rows="10" cols="30"><%= @post.text %></textarea>
+    <input type="submit" value="SEND">
+  <% end %>
+</div>
