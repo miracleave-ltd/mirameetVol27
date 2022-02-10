@@ -15,7 +15,7 @@ default: &default
   collation: utf8mb4_bin
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   username: root
-  password:
+  password: root
   host: db
 
 development:
