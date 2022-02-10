@@ -1,3 +1,13 @@
+# 内部ルール：ブランチ名（開催日までに削除すること）
+開発する際はdevelopブランチから切ること
+
+ブランチ名：
+> feature/issuesNo./対応する内容
+
+例：
+> feature/1/post_controller_unit_test
+
+
 # 環境構築 (※ミートアップ参加前に下記手順に従い、起動確認までお願いいたします。)
 
 ### 1. git clone
