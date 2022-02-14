@@ -33,3 +33,12 @@ ps-a:
 
 login:
 	docker exec -it $(NAME) sh
+
+attach:
+	docker attach $(NAME)
+
+rm-v:
+	docker volume prune
+
+rm-i:
+	docker image prune
