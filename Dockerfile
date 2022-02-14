@@ -1,6 +1,6 @@
 FROM ruby:3.0.0-alpine
 
-RUN apk update && apk add --no-cache --update build-base tzdata bash yarn python2 imagemagick graphviz mysql-dev mysql-client
+RUN apk update && apk add --no-cache --update build-base tzdata bash yarn python2 imagemagick graphviz mysql-dev mysql-client less
 
 WORKDIR /app
 ENV LANG="ja_JP.UTF-8"

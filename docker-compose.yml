@@ -3,6 +3,7 @@ services:
   db:
     platform: linux/x86_64
     image: mysql:8.0 # https://hub.docker.com/_/mysql
+    container_name: 'db'
     command: --default-authentication-plugin=mysql_native_password
     volumes:
       - ./tmp/mysql:/var/lib/mysql:delegated
@@ -14,8 +15,8 @@ services:
 
   app:
     build: .
-    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
     container_name: 'app'
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
     volumes:
       - .:/app
       - /app/node_modules
@@ -23,3 +24,27 @@ services:
       - 3000:3000
     depends_on:
       - db
+    stdin_open: true
+    tty: true
+
+  redis:
+    image: redis
+    container_name: 'redis'
+    command: redis-server --appendonly yes
+    ports:
+      - 6379:6379
+
+  worker:
+    build: .
+    container_name: 'worker'
+    command: bundle exec rake environment resque:work QUEUE=*
+    volumes:
+      - .:/app
+    links:
+      - db
+      - redis
+    environment:
+      REDIS_URL: redis:6379
+      RESQUE_HOST_DEVELOPMENT: redis
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
