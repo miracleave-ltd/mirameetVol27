@@ -1,0 +1,2 @@
+redis:
+  development: redis:6379
