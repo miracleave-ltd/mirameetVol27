@@ -9,11 +9,6 @@ class Post < ApplicationRecord
   end
 
   def slack_sync!
-    client = Slack::Web::Client.new
-    client.chat_postMessage(
-      # channel名: "#channel_name"。"channel_name"は不可。
-      channel: "##{ENV['CHANNEL_NAME']}",
-      text: text
-    )
+    Slack::SendPostService.new(user.nickname).send_post(text)
   end
 end
