@@ -7,4 +7,5 @@
     <%= render partial: "posts/post", locals: { post: post } %>
   <% end %>
   <%= paginate(@posts) %>
+  <%= link_to "Back", :back %>
 </div>
