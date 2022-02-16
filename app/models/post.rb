@@ -4,6 +4,8 @@ class Post < ApplicationRecord
 
   after_save :start_slack_sync
 
+  validates :text, presence: true
+
   def start_slack_sync
     Resque.enqueue(SlackSyncJobs, self.class.name, self.id)
   end
