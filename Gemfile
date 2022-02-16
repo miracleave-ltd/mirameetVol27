@@ -59,3 +59,4 @@ gem 'kaminari'
 gem 'dotenv-rails'
 gem 'resque'
 gem 'slack-notifier'
+gem 'whenever', :require => false
