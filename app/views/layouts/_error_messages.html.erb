@@ -1,0 +1,11 @@
+<!--エラーメッセージが存在すれば処理を実行する-->
+<% if instance.errors.messages.any? %>
+  <div class="validates js-message-errors">
+    <ul>
+      <!--エラーメッセージを全て表示させる-->
+      <% instance.errors.full_messages.each do |msg| %>
+        <li style="color: #bb4a4a;"><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>

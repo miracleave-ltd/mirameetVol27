@@ -6,16 +6,25 @@ class PostsController < ApplicationController
   end
 
   def new
+    @post = Post.new
   end
 
   def create
-    Post.create(image: post_params[:image], text: post_params[:text], user_id: current_user.id)
+    @post = Post.new(image: post_params[:image], text: post_params[:text], user_id: current_user.id)
+    if @post.save
+      redirect_to posts_path and return
+    end
+    respond_to do |format|
+      format.html { render :new }
+      format.js { render :new_errors }
+    end
   end
 
   def destroy
     post = Post.find(params[:id])
     if post.user_id == current_user.id
       post.destroy
+      redirect_to posts_path and return
     end
   end
 
@@ -24,9 +33,13 @@ class PostsController < ApplicationController
   end
 
   def update
-    post = Post.find(params[:id])
-    if post.user_id == current_user.id
-      post.update(post_params)
+    @post = Post.find(params[:id])
+    if @post.user_id == current_user.id && @post.update(post_params)
+      redirect_to posts_path and return
+    end
+    respond_to do |format|
+      format.html { render :edit }
+      format.js { render :errors }
     end
   end
 
@@ -37,7 +50,7 @@ class PostsController < ApplicationController
 
   private
   def post_params
-    params.permit(:image, :text)
+    params.require(:post).permit(:image, :text)
   end
 
   def move_to_index

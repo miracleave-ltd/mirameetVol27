@@ -1,0 +1,6 @@
+$('.js-message-errors').replaceWith(
+  "<%= j(
+    render 'layouts/error_messages',
+    instance: @post
+  ) %>"
+);

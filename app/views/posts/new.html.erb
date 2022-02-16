@@ -1,12 +1,13 @@
 <div class="contents row">
+  <div class="js-message-errors"></div>
   <div class="container">
-    <%= form_tag('/posts', method: :post) do %>
+    <%= form_with model: @post do |form|%>
       <h3>
         投稿する
       </h3>
-      <input type="text" name="image" placeholder="Image Url">
-      <textarea name="text" placeholder="text" rows="10" cols="30"></textarea>
-      <input type="submit" value="SEND">
+      <%= form.text_field :image, placeholder: :'Image url' %>
+      <%= form.text_area :text, placeholder: :text, size: "30x10" %>
+      <%= form.submit "SEND" %>
     <% end %>
   </div>
   <%= link_to "Back", posts_path %>
