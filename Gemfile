@@ -60,3 +60,4 @@ gem 'dotenv-rails'
 gem 'resque'
 gem 'slack-notifier'
 gem 'whenever', :require => false
+gem 'rails-i18n'
