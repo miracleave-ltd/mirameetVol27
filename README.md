@@ -23,11 +23,11 @@
 ### 1. git clone
 `git clone https://github.com/miracleave-ltd/mirameetVol28.git`
 
-###  2. ビルド
-`make build`
+###  2. ディレクトリ移動
+`cd mirameetVol28`
 
-### 3. yarnのインストール
-`docker-compose run app yarn install --check-files`
+###  3. ビルド
+`make build`
 
 ### 4. webpakerのインストール
 
