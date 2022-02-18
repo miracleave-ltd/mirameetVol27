@@ -20,6 +20,7 @@ services:
     volumes:
       - .:/app
       - /app/node_modules
+      - bundle:/usr/local/bundle
     ports:
       - 3000:3000
     depends_on:
@@ -48,3 +49,7 @@ services:
       RESQUE_HOST_DEVELOPMENT: redis
       REDIS_HOST: redis
       REDIS_PORT: 6379
+
+volumes:
+  mysql:
+  bundle:
