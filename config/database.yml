@@ -14,9 +14,15 @@ default: &default
   encoding: utf8mb4
   collation: utf8mb4_bin
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  username: root
-  password: root
-  host: db
+  # username: root
+  # password: root
+  # host: db
+
+  username: <%= ENV['RDS_USER'] %>
+  password: <%= ENV['RDS_PASSWORD'] %>
+  host: <%= ENV['RDS_HOSTNAME'] %>
+  port: <%= ENV['RDS_PORT'] %>
+  # database: <%= ENV['RDS_DB_NAME'] %>
 
 development:
   <<: *default
@@ -28,8 +34,6 @@ development:
 test:
   <<: *default
   database: app_test
-  username: <%= ENV['DB_USER'] %>
-  password: <%= ENV['DB_PASSWORD'] %>
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
