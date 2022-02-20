@@ -22,10 +22,10 @@ default: &default
   # password: passw0rd
   # host: codebuild-1.ctjobuhr3i6g.ap-northeast-1.rds.amazonaws.com
   # port: 3306
-  username: ${RDS_USER}
-  password: ${RDS_PASSWORD}
-  host: ${RDS_HOSTNAME}
-  port: ${RDS_PORT}
+  username: <%= ${RDS_USER} %>
+  password: <%= ${RDS_PASSWORD} %>
+  host: <%= ${RDS_HOSTNAME} %>
+  port: <%= ${RDS_PORT} %>
 
 development:
   <<: *default
