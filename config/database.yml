@@ -18,6 +18,7 @@ default: &default
   # password: root
   # host: db
 
+  socket: /var/lib/mysql/mysql.sock
   username: <%= ENV['RDS_USER'] %>
   password: <%= ENV['RDS_PASSWORD'] %>
   host: <%= ENV['RDS_HOSTNAME'] %>

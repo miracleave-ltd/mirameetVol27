@@ -9,8 +9,6 @@ phases:
     commands:
       - echo PRE_BUILD Start
       - docker-compose -f docker_compose_test.yml build
-      # - echo webpacker install start
-      # - docker-compose -f docker_compose_test.yml run app rails webpacker:install
   build:
     commands:
       - echo BUILD start
