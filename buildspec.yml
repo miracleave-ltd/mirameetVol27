@@ -16,7 +16,7 @@ phases:
       - echo BUILD start
       # - docker-compose -f docker_compose_test.yml up -d
       # - docker-compose -f docker_compose_test.yml ps
-      - docker-compose -f docker_compose_test.yml run app yarn install --check-files
+      - docker-compose -f docker_compose_test.yml run app yarn upgrade
       - docker-compose -f docker_compose_test.yml run app rails db:migrate
       # - docker exec -i app sh
       # - rails db:migrate
