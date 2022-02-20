@@ -18,11 +18,14 @@ default: &default
   # password: root
   # host: db
 
-  socket: /var/lib/mysql/mysql.sock
-  username: <%= ENV['RDS_USER'] %>
-  password: <%= ENV['RDS_PASSWORD'] %>
-  host: <%= ENV['RDS_HOSTNAME'] %>
-  port: <%= ENV['RDS_PORT'] %>
+  username: admin
+  password: passw0rd
+  host: codebuild-1.ctjobuhr3i6g.ap-northeast-1.rds.amazonaws.com
+  port: 3306
+  # username: <%= ENV['RDS_USER'] %>
+  # password: <%= ENV['RDS_PASSWORD'] %>
+  # host: <%= ENV['RDS_HOSTNAME'] %>
+  # port: <%= ENV['RDS_PORT'] %>
   # database: <%= ENV['RDS_DB_NAME'] %>
 
 development:
