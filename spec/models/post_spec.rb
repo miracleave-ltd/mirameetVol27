@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Post do
   let(:user) { create(:user) }
-  let(:post) { build(:post, user_id: user.id) }
+  let(:post) { build(:post, user: user) }
   subject { post.save }
 
   describe 'validationテスト' do
