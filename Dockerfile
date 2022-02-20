@@ -6,7 +6,9 @@ WORKDIR /app
 ENV LANG="ja_JP.UTF-8"
 
 COPY . ./
-RUN bundle install --no-cache
+# TODO: 後で戻す
+RUN bundle install
+# RUN bundle install --no-cache
 
 RUN apk add --no-cache gcompat libxml2 libxslt && \
   apk add --no-cache --virtual .gem-installdeps libxml2-dev libxslt-dev && \
