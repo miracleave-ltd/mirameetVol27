@@ -14,18 +14,10 @@ default: &default
   encoding: utf8mb4
   collation: utf8mb4_bin
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  # username: root
-  # password: root
-  # host: db
-
-  # username: admin
-  # password: passw0rd
-  # host: codebuild-1.ctjobuhr3i6g.ap-northeast-1.rds.amazonaws.com
-  # port: 3306
-  username: <%= ${RDS_USER} %>
-  password: <%= ${RDS_PASSWORD} %>
-  host: <%= ${RDS_HOSTNAME} %>
-  port: <%= ${RDS_PORT} %>
+  username: <%= ENV['RDS_USER'] || root %>
+  password: <%= ENV['RDS_PASSWORD] || root %>
+  host: <%= ENV['RDS_HOSTNAME'] || db %>
+  port: <%= ENV['RDS_PORT'] %>
 
 development:
   <<: *default
