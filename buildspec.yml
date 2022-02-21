@@ -5,15 +5,12 @@ phases:
     runtime-versions:
       docker: 19
     commands: 
-      - docker-compose -v
-      - docker version
   pre_build:
     commands:
-      - echo Build Start
+      - echo PRE_BUILD Start
       - docker-compose -f docker_compose_test.yml build
-      - echo Build Finish
-      - echo webpacker install start
-      - docker-compose -f docker_compose_test.yml run app rails webpacker:install
   build:
     commands:
+      - echo BUILD start
       - docker-compose -f docker_compose_test.yml up -d
+      - docker-compose -f docker_compose_test.yml run app bundle exec rake spec
