@@ -8,4 +8,5 @@ class User < ApplicationRecord
   has_many :comments
 
   validates :nickname, presence: true, uniqueness: true, length: { maximum: 10 }
+  validates :password_confirmation, presence: true
 end
