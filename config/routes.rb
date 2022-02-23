@@ -9,6 +9,6 @@ Rails.application.routes.draw do
   end
   resources :users, only: [:show]
 
-  mount Resque::Server.new, :at => "/resque"
+  mount Resque::Server, at: '/jobs'
 
 end
