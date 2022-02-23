@@ -78,5 +78,15 @@ describe Post do
         expect{ post.destroy }.to change(Comment,:count).by(-1)
       end
     end
+
+    context '#start_slack_sync' do
+      before do
+        allow(SlackSyncJobs).to receive(:perform_later)
+      end
+      it '保存した時にメソッドを呼び出しているか' do
+        subject
+        expect(SlackSyncJobs).to have_received(:perform_later).with(post.class.name, post.id)
+      end
+    end
   end
 end
