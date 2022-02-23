@@ -13,7 +13,7 @@ class Post < ApplicationRecord
   end
 
   def start_slack_sync
-    Resque.enqueue(SlackSyncJobs, self.class.name, self.id)
+    SlackSyncJobs.perform_later(self.class.name, self.id)
   end
 
   def slack_sync!
