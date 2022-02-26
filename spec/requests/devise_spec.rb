@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.describe 'Devise', type: :request do
   let(:user_params) { attributes_for(:user) }
-  let(:invalid_user_params) { attributes_for(:user, :invalid) }
   describe 'registration' do
     describe 'GET #new' do
       it 'リクエストが成功すること' do
@@ -30,7 +29,7 @@ RSpec.describe 'Devise', type: :request do
       end
 
       context 'パラメータが不正な場合' do
-        subject { post user_registration_url, params: { user: invalid_user_params } }
+        subject { post user_registration_url, params: { user: attributes_for(:user, :invalid) } }
         it 'リクエストが成功すること' do
           subject
           expect(response.status).to eq 200
