@@ -16,7 +16,7 @@ class PostsController < ApplicationController
     end
     respond_to do |format|
       format.html { render :new }
-      format.js { render :new_errors }
+      format.js { render :errors }
     end
   end
 
