@@ -314,6 +314,17 @@ RSpec.describe 'PostsControllers', type: :request do
         expect{subject}.to change(Post, :count).by(-1)
       end
 
+      context '投稿に紐づくComment' do
+        before do
+          post_instance.comments.create({text: "comment_text_1", user_id: user.id})
+          post_instance.comments.create({text: "comment_text_2", user_id: user.id})
+        end
+
+        it '削除されること' do
+          expect{subject}.to change(Comment,:count).by(-2)
+        end
+      end
+
       it '投稿一覧画面にリダイレクトすること' do
         subject
         expect(response).to redirect_to posts_path
