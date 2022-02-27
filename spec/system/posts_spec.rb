@@ -11,17 +11,17 @@ RSpec.feature "Posts", type: :system do
   describe '投稿/編集/削除/詳細表示/コメントの一連動作' do
     background do
       visit(root_path)
-        fill_in 'user_email', with: user_a.email
-        fill_in 'user_password', with: user_a.password
-        click_button 'commit'
+      fill_in 'user_email', with: user_a.email
+      fill_in 'user_password', with: user_a.password
+      click_button 'commit'
+      click_link_or_button '投稿する'
+      fill_in 'post_text', with: 'sample_text'
+      click_button 'commit'
     end
 
     context '基本フロー' do
 
       scenario 'ユーザーは投稿できる' do
-        click_link_or_button '投稿する'
-        fill_in 'post_text', with: 'sample_text'
-        click_button 'commit'
         expect(current_path).to eq posts_path
         expect(page).to have_content 'sample_text'
       end
@@ -34,9 +34,6 @@ RSpec.feature "Posts", type: :system do
       end
 
       scenario 'ユーザーは自分の投稿を削除できる' do
-        click_link_or_button '投稿する'
-        fill_in 'post_text', with: 'delete_test'
-        click_button 'commit'
         click_link '削除'
         expect(all('.post_content').count).to eq 0
       end
@@ -76,14 +73,11 @@ RSpec.feature "Posts", type: :system do
       end
 
       scenario '他人の投稿は編集と削除のリンクは表示されない' do
-        click_link_or_button '投稿する'
-        fill_in 'post_text', with: 'test for edit and delete.'
-        click_button 'commit'
         click_link 'ログアウト'
         fill_in 'user_email', with: user_b.email
         fill_in 'user_password', with: user_b.password
         click_button 'commit'
-        expect(page).to have_content 'test for edit and delete.'
+        expect(page).to have_content 'sample_text'
         expect(all(:link, '編集').count).to eq 0
         expect(all(:link, '削除').count).to eq 0
       end
