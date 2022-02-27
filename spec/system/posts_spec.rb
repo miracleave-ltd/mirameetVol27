@@ -6,7 +6,7 @@ RSpec.feature "Posts", type: :system do
   end
   let(:user_a) { create(:user) }
   let(:user_b) { create(:user) }
-  let(:post) { create(:post, user: user_a)}
+  let!(:post) { create(:post, text: 'hello world', user: user_a)}
 
   describe '投稿/編集/削除/詳細表示/コメントの一連動作' do
     background do
@@ -14,14 +14,14 @@ RSpec.feature "Posts", type: :system do
       fill_in 'user_email', with: user_a.email
       fill_in 'user_password', with: user_a.password
       click_button 'commit'
-      click_link_or_button '投稿する'
-      fill_in 'post_text', with: 'sample_text'
-      click_button 'commit'
     end
-
+    
     context '基本フロー' do
-
+      
       scenario 'ユーザーは投稿できる' do
+        click_link_or_button '投稿する'
+        fill_in 'post_text', with: 'sample_text'
+        click_button 'commit'
         expect(current_path).to eq posts_path
         expect(page).to have_content 'sample_text'
       end
@@ -77,7 +77,7 @@ RSpec.feature "Posts", type: :system do
         fill_in 'user_email', with: user_b.email
         fill_in 'user_password', with: user_b.password
         click_button 'commit'
-        expect(page).to have_content 'sample_text'
+        expect(page).to have_content 'hello world'
         expect(all(:link, '編集').count).to eq 0
         expect(all(:link, '削除').count).to eq 0
       end
