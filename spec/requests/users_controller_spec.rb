@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'UsersControllers', type: :request do
+RSpec.describe 'UsersController', type: :request do
   describe 'GET #show' do
     context 'ユーザーが存在する場合' do
       let(:user) { create(:user, nickname: 'Takashi') }
