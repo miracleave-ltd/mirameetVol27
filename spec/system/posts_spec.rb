@@ -15,9 +15,9 @@ RSpec.feature "Posts", type: :system do
       fill_in 'user_password', with: user_a.password
       click_button 'commit'
     end
-    
+
     context '基本フロー' do
-      
+
       scenario 'ユーザーは投稿できる' do
         click_link_or_button '投稿する'
         fill_in 'post_text', with: 'sample_text'
@@ -40,7 +40,7 @@ RSpec.feature "Posts", type: :system do
 
       scenario 'ユーザーは自分の投稿にコメントできる' do
         visit post_path(post)
-        fill_in 'text', with: 'good!!'
+        fill_in 'comment_text', with: 'good!!'
         click_button 'SEND'
         expect(page).to have_selector('p', text: 'good!', count: 1)
         expect(find('p', text: 'good!').find('a').text).to eq user_a.nickname
@@ -52,7 +52,7 @@ RSpec.feature "Posts", type: :system do
         fill_in 'user_password', with: user_b.password
         click_button 'commit'
         visit post_path(post)
-        fill_in 'text', with: 'bad!'
+        fill_in 'comment_text', with: 'bad!'
         click_button 'SEND'
         expect(page).to have_selector('p', text: 'bad!', count: 1)
         expect(find('p', text: 'bad!').find('a').text).to eq user_b.nickname
