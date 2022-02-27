@@ -16,7 +16,7 @@ class PostsController < ApplicationController
     end
     respond_to do |format|
       format.html { render :new }
-      format.js { render :errors }
+      format.js { render 'layouts/errors' }
     end
   end
 
@@ -39,12 +39,13 @@ class PostsController < ApplicationController
     end
     respond_to do |format|
       format.html { render :edit }
-      format.js { render :errors }
+      format.js { render 'layouts/errors' }
     end
   end
 
   def show
     @post = Post.find(params[:id])
+    @comment = Comment.new
     @comments = @post.comments.includes(:user)
   end
 
