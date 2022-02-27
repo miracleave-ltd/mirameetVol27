@@ -1,9 +1,6 @@
 <div class="contents row">
   <p><%= @nickname %>さんの投稿一覧</p>
   <% @posts.each do |post| %>
-    <!--<div class="content_post" style="background-image: url(<%= post.image %>);">-->
-    <!--  <%= simple_format(post.text) %>-->
-    <!--</div>-->
     <%= render partial: "posts/post", locals: { post: post } %>
   <% end %>
   <%= paginate(@posts) %>
