@@ -12,9 +12,14 @@ RSpec.describe 'UsersControllers', type: :request do
           post_instance
         end
 
-        it 'リクエストが成功すること' do
+        it '200レスポンスを返すこと' do
           get user_path user.id
           expect(response.status).to eq 200
+        end
+
+        it '正常にレスポンスを返すこと' do
+          get user_path user.id
+          expect(response).to be_successful
         end
 
         it 'ユーザー名が表示していること' do
