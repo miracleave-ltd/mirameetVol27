@@ -13,7 +13,7 @@ RSpec.describe 'PostsControllers', type: :request do
         post_instance
       end
 
-      it 'リクエストが成功すること' do
+      it '200レスポンスを返すこと' do
         subject
         expect(response.status).to eq 200
       end
@@ -30,7 +30,7 @@ RSpec.describe 'PostsControllers', type: :request do
         sign_out user
       end
 
-      it 'リクエストが成功すること' do
+      it '302レスポンスを返すこと' do
         subject
         expect(response.status).to eq 302
       end
@@ -51,7 +51,7 @@ RSpec.describe 'PostsControllers', type: :request do
           sign_in user
         end
 
-        it 'リクエストが成功すること' do
+        it '200レスポンスを返すこと' do
           subject
           expect(response.status).to eq 200
         end
@@ -97,7 +97,7 @@ RSpec.describe 'PostsControllers', type: :request do
         sign_in user
       end
 
-      it 'リクエストが成功すること' do
+      it '200レスポンスを返すこと' do
         subject
         expect(response.status).to eq 200
       end
@@ -123,7 +123,7 @@ RSpec.describe 'PostsControllers', type: :request do
       end
 
       context 'パラメータが妥当な場合' do
-        it 'リクエストが成功すること' do
+        it '302レスポンスを返すこと' do
           subject
           expect(response.status).to eq 302
         end
@@ -142,7 +142,7 @@ RSpec.describe 'PostsControllers', type: :request do
 
       context 'パラメータが不正な場合' do
         subject { post posts_url, params: { post: attributes_for(:post, :text_invalid) } }
-        it 'リクエストが成功すること' do
+        it '200レスポンスを返すこと' do
           subject
           expect(response.status).to eq 200
         end
@@ -179,7 +179,7 @@ RSpec.describe 'PostsControllers', type: :request do
           sign_in user
         end
 
-        it 'リクエストが成功すること' do
+        it '200レスポンスを返すこと' do
           subject
           expect(response.status).to eq 200
         end
@@ -235,7 +235,7 @@ RSpec.describe 'PostsControllers', type: :request do
       end
 
       context 'パラメータが妥当な場合' do
-        it 'リクエストが成功すること' do
+        it '302レスポンスを返すこと' do
           subject
           expect(response.status).to eq 302
         end
@@ -262,7 +262,7 @@ RSpec.describe 'PostsControllers', type: :request do
 
       context 'パラメータが不正な場合' do
         subject { put post_url post_instance, params: { post: attributes_for(:post, :text_invalid) } }
-        it 'リクエストが成功すること' do
+        it '200レスポンスを返すこと' do
           subject
           expect(response.status).to eq 200
         end
@@ -305,7 +305,7 @@ RSpec.describe 'PostsControllers', type: :request do
         post_instance
       end
 
-      it 'リクエストが成功すること' do
+      it '302レスポンスを返すこと' do
         subject
         expect(response.status).to eq 302
       end

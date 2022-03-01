@@ -10,7 +10,7 @@ RSpec.describe 'UsersController', type: :request do
           sign_in user
         end
 
-        it 'リクエストが成功すること' do
+        it '200レスポンスを返すこと' do
           get user_path user.id
           expect(response.status).to eq 200
         end

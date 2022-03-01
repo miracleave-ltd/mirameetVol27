@@ -16,7 +16,7 @@ RSpec.describe 'CommentsController', type: :request do
       end
 
       context 'パラメータが妥当な場合' do
-        it 'リクエストが成功すること' do
+        it '302レスポンスを返すこと' do
           subject
           expect(response.status).to eq 302
         end
@@ -38,7 +38,7 @@ RSpec.describe 'CommentsController', type: :request do
           post post_comments_url post_instance,
           params: { comment: attributes_for(:comment, :text_invalid) }
         }
-        it 'リクエストが成功すること' do
+        it '302レスポンスを返すこと' do
           subject
           expect(response.status).to eq 302
         end

@@ -4,7 +4,7 @@ RSpec.describe 'Devise', type: :request do
   let(:user_params) { attributes_for(:user) }
   describe 'registration' do
     describe 'GET #new' do
-      it 'リクエストが成功すること' do
+      it '200レスポンスを返すこと' do
         get new_user_registration_url
         expect(response.status).to eq 200
       end
@@ -13,7 +13,7 @@ RSpec.describe 'Devise', type: :request do
     describe 'POST #create' do
       context 'パラメータが妥当な場合' do
         subject { post user_registration_url, params: { user: user_params } }
-        it 'リクエストが成功すること' do
+        it '302レスポンスを返すこと' do
           subject
           expect(response.status).to eq 302
         end
@@ -30,7 +30,7 @@ RSpec.describe 'Devise', type: :request do
 
       context 'パラメータが不正な場合' do
         subject { post user_registration_url, params: { user: attributes_for(:user, :invalid) } }
-        it 'リクエストが成功すること' do
+        it '200レスポンスを返すこと' do
           subject
           expect(response.status).to eq 200
         end
@@ -49,7 +49,7 @@ RSpec.describe 'Devise', type: :request do
 
   describe 'session' do
     describe 'GET #new' do
-      it 'リクエストが成功すること' do
+      it '200レスポンスを返すこと' do
         get new_user_session_url
         expect(response.status).to eq 200
       end
@@ -64,7 +64,7 @@ RSpec.describe 'Devise', type: :request do
       end
       context 'パラメータが妥当な場合' do
         subject { post user_session_url, params: { user: user_created_params } }
-        it 'リクエストが成功すること' do
+        it '302レスポンスを返すこと' do
           subject
           expect(response.status).to eq 302
         end
@@ -77,7 +77,7 @@ RSpec.describe 'Devise', type: :request do
 
       context 'パラメータが不正な場合' do
         subject { post user_session_url, params: { user: {email: nil, password: "I2nAj8H65j6E0p"} } }
-        it 'リクエストが成功すること' do
+        it '200レスポンスを返すこと' do
           subject
           expect(response.status).to eq 200
         end
