@@ -18,7 +18,7 @@ RSpec.describe 'PostsControllers', type: :request do
         expect(response.status).to eq 200
       end
 
-      it '投稿が表示されていること' do
+      it 'レスポンスに適切な投稿内容を含むこと' do
         subject
         expect(response.body).to include 'PostRequestTest :Takashiの投稿'
         expect(response.body).to include '<span>投稿者</span>Takashi'
@@ -56,7 +56,7 @@ RSpec.describe 'PostsControllers', type: :request do
           expect(response.status).to eq 200
         end
 
-        it '投稿とコメント表示欄が表示されていること' do
+        it 'レスポンスに適切な投稿とコメント表示欄を含むこと' do
           subject
           expect(response.body).to include 'PostRequestTest :Takashiの投稿'
           expect(response.body).to include '<span>投稿者</span>Takashi'
@@ -184,12 +184,12 @@ RSpec.describe 'PostsControllers', type: :request do
           expect(response.status).to eq 200
         end
 
-        it 'image urlが表示されていること' do
+        it 'レスポンスに適切なimage urlが含まれること' do
           subject
           expect(response.body).to include 'https://example_image_url'
         end
 
-        it 'textが表示されていること' do
+        it 'レスポンスに適切なtextが含まれていること' do
           subject
           expect(response.body).to include 'PostRequestTest :Takashiの投稿'
         end
