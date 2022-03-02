@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'UsersControllers', type: :request do
+RSpec.describe UsersControllers, type: :controller do
   describe '#showアクションテスト' do
     context 'ユーザが存在する場合' do
       let(:user) { create(:user, nickname: 'Toshio') }
@@ -40,7 +40,7 @@ RSpec.describe 'UsersControllers', type: :request do
         it 'リクエストが成功しないこと' do
           get user_path user.id
           expect(response.status).to eq 302
-        end
+        end        
       end
     end
   end
