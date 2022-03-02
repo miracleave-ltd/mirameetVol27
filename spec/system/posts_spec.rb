@@ -9,21 +9,20 @@ RSpec.feature "Posts", type: :system do
   let!(:post) { create(:post, text: 'hello world', user: user_a)}
 
   describe '投稿/編集/削除/詳細表示/コメントの一連動作' do
-    background do
-      visit(root_path)
-      fill_in 'user_email', with: user_a.email
-      fill_in 'user_password', with: user_a.password
-      click_button 'commit'
+    before do
+      sign_in_as user_a
     end
 
     context '基本フロー' do
+      scenario 'ユーザーは新しい投稿を作成する' do
+        expect {
+          click_link_or_button '投稿する'
+          fill_in 'post_text', with: 'sample_text'
+          click_button 'commit'
 
-      scenario 'ユーザーは投稿できる' do
-        click_link_or_button '投稿する'
-        fill_in 'post_text', with: 'sample_text'
-        click_button 'commit'
-        expect(current_path).to eq posts_path
-        expect(page).to have_content 'sample_text'
+          expect(current_path).to eq posts_path
+          expect(page).to have_content 'sample_text'
+        }.to change(user_a.posts, :count).by(1)
       end
 
       scenario 'ユーザーは自分の投稿を閲覧でき、編集できる' do
@@ -81,7 +80,6 @@ RSpec.feature "Posts", type: :system do
         expect(all(:link, '編集').count).to eq 0
         expect(all(:link, '削除').count).to eq 0
       end
-
     end
 
     context '例外フロー' do
@@ -97,8 +95,6 @@ RSpec.feature "Posts", type: :system do
         expect(current_path).to eq post_path(post)
         expect(find(class: 'comments').all('p').count).to eq 0
       end
-
     end
   end
-
 end
