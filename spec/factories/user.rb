@@ -4,5 +4,9 @@ FactoryBot.define do
     email {Faker::Internet.free_email(name: nickname)}
     password {Faker::Internet.password(min_length: 6)}
     password_confirmation {password}
+
+    trait :invalid do
+      email { nil }
+    end
   end
 end

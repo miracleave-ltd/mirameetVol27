@@ -71,14 +71,6 @@ describe Post do
       end
     end
 
-    context '削除' do
-      let!(:comment){ post.comments.build({text: "comment_text", user_id: user.id}) }
-      it '投稿を削除した時、それに紐づくCommentも削除される' do
-        subject
-        expect{ post.destroy }.to change(Comment,:count).by(-1)
-      end
-    end
-
     context '#start_slack_sync' do
       before do
         allow(SlackSyncJobs).to receive(:perform_later)

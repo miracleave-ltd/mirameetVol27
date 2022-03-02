@@ -1,5 +1,6 @@
 <div class="contents row">
-  <div class="content_post" style="background-image: url(<%= @post.image %>);">
+  <div class="js-message-errors"></div>
+  <div class="content_post" style=<%= post_image_present_style(@post) %>>
     <% if user_signed_in? && current_user.id == @post.user_id %>
       <div class="more">
         <span><%= image_tag 'arrow_top.png' %></span>
@@ -23,9 +24,9 @@
   <div class="container">
     <% if current_user %>
       <!-- ここからフォーム -->
-      <%= form_tag("/posts/#{@post.id}/comments", method: :post) do %>
-        <textarea name="text" placeholder="コメントをする" rows="2" cols="30"></textarea>
-        <input type="submit" value="SEND">
+      <%= form_with model: [@post, @comment] do |form| %>
+        <%= form.text_area :text, placeholder: 'コメントをする', size: "30x2" %>
+        <%= form.submit "SEND" %>
       <% end %>
     <% end %>
   <!-- ここからコメント -->
