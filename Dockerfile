@@ -6,8 +6,7 @@ WORKDIR /app
 ENV LANG="ja_JP.UTF-8"
 
 COPY . ./
-RUN bundle install --no-cache
-
+RUN bundle install
 RUN apk add --no-cache gcompat libxml2 libxslt && \
   apk add --no-cache --virtual .gem-installdeps libxml2-dev libxslt-dev && \
   gem install nokogiri --platform=ruby -- --use-system-libraries && \
