@@ -16,10 +16,7 @@ RSpec.describe 'CommentsController', type: :request do
       end
 
       context 'パラメータが妥当な場合' do
-        it '302レスポンスを返すこと' do
-          subject
-          expect(response.status).to eq 302
-        end
+        it_behaves_like 'return_response_status', 302
 
         it 'コメントが登録されること' do
           expect do
@@ -38,10 +35,8 @@ RSpec.describe 'CommentsController', type: :request do
           post post_comments_url post_instance,
           params: { comment: attributes_for(:comment, :text_invalid) }
         }
-        it '302レスポンスを返すこと' do
-          subject
-          expect(response.status).to eq 302
-        end
+
+        it_behaves_like 'return_response_status', 302
 
         it 'コメントが登録されないこと' do
           expect{subject}.to_not change(Comment, :count)
@@ -51,26 +46,11 @@ RSpec.describe 'CommentsController', type: :request do
           post post_comments_url(post_instance),
           xhr: true,
           params: { comment: attributes_for(:comment, :text_invalid) }
-
           expect(response.body).to include 'Textを入力してください'
         end
       end
     end
 
-    context 'ログインしていない場合' do
-      before do
-        sign_out user
-      end
-
-      it '302レンスポンスを返すこと' do
-        subject
-        expect(response.status).to eq 302
-      end
-
-      it 'ログイン画面にリダイレクトされること' do
-        subject
-        expect(response).to redirect_to new_user_session_url
-      end
-    end
+    it_behaves_like 'ログインしていない場合'
   end
 end

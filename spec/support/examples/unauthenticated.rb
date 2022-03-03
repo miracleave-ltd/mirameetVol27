@@ -3,10 +3,7 @@ RSpec.shared_examples 'ログインしていない場合' do
     sign_out user
   end
 
-  it '302レスポンスを返すこと' do
-    subject
-    expect(response.status).to eq 302
-  end
+  include_examples 'return_response_status', 302
 
   it 'ログイン画面にリダイレクトされること' do
     subject
