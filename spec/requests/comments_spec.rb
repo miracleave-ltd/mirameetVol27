@@ -1,13 +1,13 @@
 require 'rails_helper'
 
-RSpec.describe 'CommentsController', type: :request do
-  let(:user) { create(:user, nickname: 'Takashi') }
-  let(:post_instance) { create(:post, user: user, text: 'PostRequestTest', image: 'https://example_image_url') }
+RSpec.describe 'Comments', type: :request do
+  let(:user) { create(:user) }
+  let(:post_instance) { create(:post, user: user) }
 
   describe 'POST #create' do
     subject {
       post post_comments_url post_instance,
-      params: { comment: attributes_for(:comment) }
+      params: { comment: attributes_for(:comment, post: post_instance) }
     }
 
     context 'ログインしている場合' do
@@ -33,7 +33,7 @@ RSpec.describe 'CommentsController', type: :request do
       context 'パラメータが不正な場合' do
         subject {
           post post_comments_url post_instance,
-          params: { comment: attributes_for(:comment, :text_invalid) }
+          params: { comment: attributes_for(:comment, :text_invalid, post: post_instance) }
         }
 
         it_behaves_like 'return_response_status', 302
@@ -45,7 +45,7 @@ RSpec.describe 'CommentsController', type: :request do
         it 'エラーが表示されること' do
           post post_comments_url(post_instance),
           xhr: true,
-          params: { comment: attributes_for(:comment, :text_invalid) }
+          params: { comment: attributes_for(:comment, :text_invalid, post: post_instance) }
           expect(response.body).to include 'Textを入力してください'
         end
       end

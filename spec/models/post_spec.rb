@@ -54,7 +54,7 @@ describe Post do
       end
       it '保存した時にメソッドを呼び出していること' do
         post = create(:post)
-        expect(SlackSyncJob).to have_received(:perform_later).with(post.class.name, post.id)
+        expect(SlackSyncJob).to have_received(:perform_later).with(post)
       end
     end
   end
