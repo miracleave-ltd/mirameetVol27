@@ -93,7 +93,7 @@ RSpec.describe 'Posts', type: :request do
         it_behaves_like 'return_response_status', 302
 
         it '投稿が登録されること' do
-          expect{subject}.to change(Post, :count).by(1)
+          expect{subject}.to change(user.posts, :count).by(1)
         end
 
         it '投稿一覧画面にリダイレクトすること' do
