@@ -13,22 +13,13 @@ RSpec.describe UsersController, type: :controller do
         end
 
         it '200レスポンスを返すこと' do
-          get user_path user.id
+          get :show, params: { id: user.id }
           expect(response.status).to eq 200
         end
 
         it '正常にレスポンスを返すこと' do
-          get user_path user.id
+          get :show, params: { id: user.id }
           expect(response).to be_successful
-        end
-
-        it 'ユーザー名が表示していること' do
-          get user_path user.id
-          expect(user.nickname).to eq 'Toshio'          
-        end
-
-        it '投稿が表示されていること' do
-          expect(post_instance.text).to include 'PostTest'        
         end
       end
 
