@@ -23,16 +23,21 @@ RSpec.describe UsersController, type: :controller do
         end
       end
 
-      # context 'ログインしていない場合' do
-      #   before do
-      #     sign_out user
-      #   end
+      context 'ログインしていない場合' do
+        before do
+          sign_out user
+        end
 
-      #   it 'リクエストが成功しないこと' do
-      #     get user_path user.id
-      #     expect(response.status).to eq 302
-      #   end        
-      # end
+        it '302レスポンスを返すこと' do
+          get :show, params: { id: user.id }
+          expect(response.status).to eq 302
+        end
+
+        it 'ログイン画面にリダイレクトされること' do
+          get :show, params: { id: user.id }
+          expect(response).to redirect_to new_user_session_url
+        end
+      end
     end
   end
 end
