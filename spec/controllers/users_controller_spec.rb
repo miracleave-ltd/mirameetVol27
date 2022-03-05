@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe UsersController, type: :controller do
   describe '#showアクションテスト' do
     context 'ユーザが存在する場合' do
-      let(:user) { create(:user, nickname: 'Toshio') }
-      subject {get :show, params: { id: user.id }}
+      let(:user) { create(:user) }
+      subject { get :show, params: { id: user.id } }
 
       context 'ログインしている場合' do
         before do
