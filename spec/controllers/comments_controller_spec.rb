@@ -6,7 +6,7 @@ RSpec.describe CommentsController, type: :controller do
     let(:post_instance) { create(:post, user: user) }
     subject {
       post :create,
-      params: { post_id: post_instance.id, comment: attributes_for(:comment) }
+      params: { post_id: post_instance.id, comment: attributes_for(:comment, post: post_instance, user: user) }
     }
 
     context 'ログインしている場合' do
@@ -26,7 +26,7 @@ RSpec.describe CommentsController, type: :controller do
             post :create,
             params: {
               post_id: post_instance.id,
-              comment: attributes_for(:comment, :text_invalid)
+              comment: attributes_for(:comment, :text_invalid, post: post_instance, user: user)
             }
           }.to_not change(user.comments, :count)
         end
