@@ -13,7 +13,7 @@ class Post < ApplicationRecord
   end
 
   def start_slack_sync
-    SlackSyncJobs.perform_later(self.class.name, self.id)
+    SlackSyncJob.perform_later self
   end
 
   def slack_sync!

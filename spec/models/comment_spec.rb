@@ -1,64 +1,32 @@
 require 'rails_helper'
 
 describe Comment do
-  let(:user) { create(:user) }
-  let(:post) { create(:post, user: user) }
-  let(:comment) { build(:comment, user: user, post: post) }
-  subject { comment.save }
+  let(:post) { create(:post) }
 
-  describe 'validationテスト' do
-    context '正常チェック' do
-      it '保存できること' do
-        is_expected.to eq(true)
-      end
-    end
+  it 'text, user_id, post_idがあれば有効であること' do
+    comment = Comment.new(
+      text: 'comment_text',
+      user_id: post.user.id,
+      post_id: post.id
+    )
+    expect(comment).to be_valid
+  end
 
-    context 'text' do
-      it 'nilの場合、保存できない' do
-        comment.text = nil
-        is_expected.to eq(false)
-      end
+  describe 'アソシエーション' do
+    it { is_expected.to belong_to :user }
+    it { is_expected.to belong_to :post }
+  end
 
-      it '空文字の場合、保存できない' do
-        comment.text = ""
-        is_expected.to eq(false)
-      end
+  describe 'text' do
+    it { is_expected.to validate_presence_of :text }
+    it { is_expected.to validate_length_of(:text).is_at_most(100) }
+  end
 
-      it '100文字以内の場合、保存できる' do
-        comment.text = Faker::Lorem.characters(number: 100)
-        is_expected.to eq(true)
-      end
+  describe 'user_id' do
+    it { is_expected.to validate_presence_of(:user) }
+  end
 
-      it '101文字以上の場合、保存できない' do
-        comment.text = Faker::Lorem.characters(number: 101)
-        is_expected.to eq(false)
-      end
-    end
-
-    context 'user_id' do
-      it 'nilの場合、保存できない' do
-        comment.user_id = nil
-        is_expected.to eq(false)
-      end
-
-      it '存在しないUserのidの場合、保存できない' do
-        # TODO:存在しないUserのidの取得方法の検討
-        comment.user_id = User.maximum(:id) + 1
-        is_expected.to eq(false)
-      end
-    end
-
-    context 'post_id' do
-      it 'nilの場合、保存できない' do
-        comment.post_id = nil
-        is_expected.to eq(false)
-      end
-
-      it '存在しないPostのidの場合、保存できない' do
-        # TODO:存在しないPostのidの取得方法の検討
-        comment.post_id = Post.maximum(:id) + 1
-        is_expected.to eq(false)
-      end
-    end
+  describe 'post_id' do
+    it { is_expected.to validate_presence_of(:post) }
   end
 end

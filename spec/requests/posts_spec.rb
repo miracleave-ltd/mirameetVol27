@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-RSpec.describe 'PostsControllers', type: :request do
+RSpec.describe 'Posts', type: :request do
   let(:user) { create(:user, nickname: 'Takashi') }
   let(:post_instance) { create(:post, user: user, text: 'PostRequestTest', image: 'https://example_image_url') }
 
-  describe 'GET #index' do
+  describe '投稿一覧' do
     subject { get posts_url }
 
     context 'ログインしている場合' do
@@ -13,36 +13,21 @@ RSpec.describe 'PostsControllers', type: :request do
         post_instance
       end
 
-      it '200レスポンスを返すこと' do
-        subject
-        expect(response.status).to eq 200
-      end
+      it_behaves_like 'return_response_status', 200
 
       it 'レスポンスに適切な投稿内容を含むこと' do
         subject
-        expect(response.body).to include 'PostRequestTest :Takashiの投稿'
-        expect(response.body).to include '<span>投稿者</span>Takashi'
+        aggregate_failures do
+          expect(response.body).to include 'PostRequestTest :Takashiの投稿'
+          expect(response.body).to include '<span>投稿者</span>Takashi'
+        end
       end
     end
 
-    context 'ログインしていない場合' do
-      before do
-        sign_out user
-      end
-
-      it '302レスポンスを返すこと' do
-        subject
-        expect(response.status).to eq 302
-      end
-
-      it 'ログイン画面にリダイレクトされること' do
-        subject
-        expect(response).to redirect_to new_user_session_url
-      end
-    end
+    it_behaves_like 'ログインしていない場合'
   end
 
-  describe 'GET #show' do
+  describe '投稿詳細' do
     context '投稿が存在する場合' do
       subject { get post_url post_instance.id }
 
@@ -51,45 +36,35 @@ RSpec.describe 'PostsControllers', type: :request do
           sign_in user
         end
 
-        it '200レスポンスを返すこと' do
-          subject
-          expect(response.status).to eq 200
-        end
+        it_behaves_like 'return_response_status', 200
 
         it 'レスポンスに適切な投稿とコメント表示欄を含むこと' do
           subject
-          expect(response.body).to include 'PostRequestTest :Takashiの投稿'
-          expect(response.body).to include '<span>投稿者</span>Takashi'
-          expect(response.body).to include '<h4><コメント一覧></h4>'
+          aggregate_failures do
+            expect(response.body).to include 'PostRequestTest :Takashiの投稿'
+            expect(response.body).to include '<span>投稿者</span>Takashi'
+            expect(response.body).to include '<h4><コメント一覧></h4>'
+          end
         end
       end
 
-      context 'ログインしていない場合' do
-        before do
-          sign_out user
-        end
-
-        it 'ログイン画面にリダイレクトされること' do
-          subject
-          expect(response).to redirect_to new_user_session_url
-        end
-      end
+      it_behaves_like 'ログインしていない場合'
     end
 
-    # TODO:skip
     context '投稿が存在しない場合' do
       before do
         sign_in user
       end
 
-      xit 'ログイン画面にリダイレクトされること' do
-        get post_url 1
-        expect(response).to redirect_to new_user_session_url
+      it '例外が発生すること' do
+        expect do
+          get post_url 1
+        end.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
   end
 
-  describe 'GET #new' do
+  describe '投稿新規登録' do
     subject { get new_post_url }
 
     context 'ログインしている場合' do
@@ -97,41 +72,28 @@ RSpec.describe 'PostsControllers', type: :request do
         sign_in user
       end
 
-      it '200レスポンスを返すこと' do
-        subject
-        expect(response.status).to eq 200
-      end
+      it_behaves_like 'return_response_status', 200
     end
 
-    context 'ログインしていない場合' do
-      before do
-        sign_out user
-      end
-
-      it 'ログイン画面にリダイレクトされること' do
-        subject
-        expect(response).to redirect_to new_user_session_url
-      end
-    end
+    it_behaves_like 'ログインしていない場合'
   end
 
-  describe 'POST #create' do
+  describe '投稿新規作成' do
+    subject {
+      post posts_url,
+      params: { post: attributes_for(:post) }
+    }
+
     context 'ログインしている場合' do
-      subject { post posts_url, params: { post: attributes_for(:post, :image_present) } }
       before do
         sign_in user
       end
 
       context 'パラメータが妥当な場合' do
-        it '302レスポンスを返すこと' do
-          subject
-          expect(response.status).to eq 302
-        end
+        it_behaves_like 'return_response_status', 302
 
         it '投稿が登録されること' do
-          expect do
-            subject
-          end.to change(Post, :count).by(1)
+          expect{subject}.to change(user.posts, :count).by(1)
         end
 
         it '投稿一覧画面にリダイレクトすること' do
@@ -141,11 +103,12 @@ RSpec.describe 'PostsControllers', type: :request do
       end
 
       context 'パラメータが不正な場合' do
-        subject { post posts_url, params: { post: attributes_for(:post, :text_invalid) } }
-        it '200レスポンスを返すこと' do
-          subject
-          expect(response.status).to eq 200
-        end
+        subject {
+          post posts_url,
+          params: { post: attributes_for(:post, :text_invalid) }
+        }
+
+        it_behaves_like 'return_response_status', 200
 
         it '投稿が登録されないこと' do
           expect{subject}.to_not change(Post, :count)
@@ -158,31 +121,19 @@ RSpec.describe 'PostsControllers', type: :request do
       end
     end
 
-    context 'ログインしていない場合' do
-      before do
-        sign_out user
-      end
-      subject { post posts_url, params: { post: attributes_for(:post, :image_present) } }
-
-      it 'ログイン画面にリダイレクトされること' do
-        subject
-        expect(response).to redirect_to new_user_session_url
-      end
-    end
+    it_behaves_like 'ログインしていない場合'
   end
 
-  describe 'GET #edit' do
+  describe '投稿編集' do
     context '投稿が存在する場合' do
       subject { get edit_post_url post_instance.id }
+
       context 'ログインしている場合' do
         before do
           sign_in user
         end
 
-        it '200レスポンスを返すこと' do
-          subject
-          expect(response.status).to eq 200
-        end
+        it_behaves_like 'return_response_status', 200
 
         it 'レスポンスに適切なimage urlが含まれること' do
           subject
@@ -195,30 +146,23 @@ RSpec.describe 'PostsControllers', type: :request do
         end
       end
 
-      context 'ログインしていない場合' do
-        before do
-          sign_out user
-        end
-
-        it 'ログイン画面にリダイレクトされること' do
-          subject
-          expect(response).to redirect_to new_user_session_url
-        end
-      end
+      it_behaves_like 'ログインしていない場合'
     end
 
-    # TODO:skip
     context '投稿が存在しない場合' do
       before do
         sign_in user
       end
 
-      subject { -> { get edit_post_url 1 } }
-      xit { expect(subject).to raise_error ActiveRecord::RecordNotFound }
+      it '例外が発生すること' do
+        expect do
+          get edit_post_url 1
+        end.to raise_error(ActiveRecord::RecordNotFound)
+      end
     end
   end
 
-  describe 'PUT #update' do
+  describe '投稿更新' do
     let(:update_params) {
       attributes_for(
         :post,
@@ -235,10 +179,7 @@ RSpec.describe 'PostsControllers', type: :request do
       end
 
       context 'パラメータが妥当な場合' do
-        it '302レスポンスを返すこと' do
-          subject
-          expect(response.status).to eq 302
-        end
+        it_behaves_like 'return_response_status', 302
 
         it 'image urlが更新されること' do
           expect{subject}
@@ -261,11 +202,12 @@ RSpec.describe 'PostsControllers', type: :request do
       end
 
       context 'パラメータが不正な場合' do
-        subject { put post_url post_instance, params: { post: attributes_for(:post, :text_invalid) } }
-        it '200レスポンスを返すこと' do
-          subject
-          expect(response.status).to eq 200
-        end
+        subject {
+          put post_url post_instance,
+          params: { post: attributes_for(:post, :text_invalid) }
+        }
+
+        it_behaves_like 'return_response_status', 200
 
         it 'image urlが変更されないこと' do
           subject
@@ -284,19 +226,10 @@ RSpec.describe 'PostsControllers', type: :request do
       end
     end
 
-    context 'ログインしていない場合' do
-      before do
-        sign_out user
-      end
-
-      it 'ログイン画面にリダイレクトされること' do
-        subject
-        expect(response).to redirect_to new_user_session_url
-      end
-    end
+    it_behaves_like 'ログインしていない場合'
   end
 
-  describe 'DELETE #delete' do
+  describe '投稿削除' do
     subject { delete post_url post_instance }
 
     context 'ログインしている場合' do
@@ -305,16 +238,13 @@ RSpec.describe 'PostsControllers', type: :request do
         post_instance
       end
 
-      it '302レスポンスを返すこと' do
-        subject
-        expect(response.status).to eq 302
-      end
+      it_behaves_like 'return_response_status', 302
 
       it '投稿が削除されること' do
         expect{subject}.to change(Post, :count).by(-1)
       end
 
-      context '投稿に紐づくComment' do
+      describe '投稿に紐づくComment' do
         before do
           post_instance.comments.create({text: "comment_text_1", user_id: user.id})
           post_instance.comments.create({text: "comment_text_2", user_id: user.id})
@@ -331,15 +261,6 @@ RSpec.describe 'PostsControllers', type: :request do
       end
     end
 
-    context 'ログインしていない場合' do
-      before do
-        sign_out user
-      end
-
-      it 'ログイン画面にリダイレクトされること' do
-        subject
-        expect(response).to redirect_to new_user_session_url
-      end
-    end
+    it_behaves_like 'ログインしていない場合'
   end
 end

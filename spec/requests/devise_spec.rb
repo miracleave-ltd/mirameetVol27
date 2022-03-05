@@ -3,20 +3,17 @@ require 'rails_helper'
 RSpec.describe 'Devise', type: :request do
   let(:user_params) { attributes_for(:user) }
   describe 'registration' do
-    describe 'GET #new' do
-      it '200レスポンスを返すこと' do
-        get new_user_registration_url
-        expect(response.status).to eq 200
-      end
+    describe 'ユーザー新規登録画面表示機能' do
+      subject { get new_user_registration_url }
+
+      it_behaves_like 'return_response_status', 200
     end
 
-    describe 'POST #create' do
+    describe 'ユーザー新規作成機能' do
       context 'パラメータが妥当な場合' do
         subject { post user_registration_url, params: { user: user_params } }
-        it '302レスポンスを返すこと' do
-          subject
-          expect(response.status).to eq 302
-        end
+
+        it_behaves_like 'return_response_status', 302
 
         it 'ユーザーが登録されること' do
           expect{subject}.to change(User, :count).by(1)
@@ -30,10 +27,8 @@ RSpec.describe 'Devise', type: :request do
 
       context 'パラメータが不正な場合' do
         subject { post user_registration_url, params: { user: attributes_for(:user, :invalid) } }
-        it '200レスポンスを返すこと' do
-          subject
-          expect(response.status).to eq 200
-        end
+
+        it_behaves_like 'return_response_status', 200
 
         it 'ユーザーが登録されないこと' do
           expect{subject}.to_not change(User, :count)
@@ -48,26 +43,23 @@ RSpec.describe 'Devise', type: :request do
   end
 
   describe 'session' do
-    describe 'GET #new' do
-      it '200レスポンスを返すこと' do
-        get new_user_session_url
-        expect(response.status).to eq 200
-      end
+    describe 'ユーザーログイン画面表示機能' do
+      subject { get new_user_session_url }
+
+      it_behaves_like 'return_response_status', 200
     end
 
-    describe 'POST #create' do
+    describe 'ユーザーログイン機能' do
       let(:user_created_params) { attributes_for(:user) }
       let(:user) { User.create(user_created_params) }
       before do
-        # 明示的にログアウトさせる
         sign_out user
       end
+
       context 'パラメータが妥当な場合' do
         subject { post user_session_url, params: { user: user_created_params } }
-        it '302レスポンスを返すこと' do
-          subject
-          expect(response.status).to eq 302
-        end
+
+        it_behaves_like 'return_response_status', 302
 
         it 'リダイレクトすること' do
           subject
@@ -77,10 +69,8 @@ RSpec.describe 'Devise', type: :request do
 
       context 'パラメータが不正な場合' do
         subject { post user_session_url, params: { user: {email: nil, password: "I2nAj8H65j6E0p"} } }
-        it '200レスポンスを返すこと' do
-          subject
-          expect(response.status).to eq 200
-        end
+
+        it_behaves_like 'return_response_status', 200
 
         it 'ログイン画面が表示されること' do
           subject
