@@ -4,12 +4,10 @@ RSpec.describe UsersController, type: :controller do
   describe '#showアクションテスト' do
     context 'ユーザが存在する場合' do
       let(:user) { create(:user, nickname: 'Toshio') }
-      let(:post_instance) { create(:post, user: user, text: 'PostTest', image: 'https://example_image_url') }
 
       context 'ログインしている場合' do
         before do
           sign_in user
-          post_instance
         end
 
         it '200レスポンスを返すこと' do
