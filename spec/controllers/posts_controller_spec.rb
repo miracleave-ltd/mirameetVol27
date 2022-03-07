@@ -9,7 +9,7 @@ RSpec.describe PostsController, type: :controller do
         before do
           sign_in user
           post_instance
-        end        
+        end
 
         it '200レスポンスを返すこと' do
           get :index
@@ -44,7 +44,7 @@ RSpec.describe PostsController, type: :controller do
         before do
           sign_in user
           post_instance
-        end        
+        end
 
         it '200レスポンスを返すこと' do
           get :new
@@ -79,7 +79,7 @@ RSpec.describe PostsController, type: :controller do
         before do
           sign_in user
           post_instance          
-        end        
+        end
 
         it '302レスポンスを返すこと' do
           post :create, params: {post: {image: post_instance.image, text: post_instance.text}}
@@ -116,7 +116,7 @@ RSpec.describe PostsController, type: :controller do
         before do
           sign_in user
           post_instance          
-        end        
+        end
 
         it '302レスポンスを返すこと' do
           delete :destroy, params: { id: post_instance.id }
@@ -153,7 +153,7 @@ RSpec.describe PostsController, type: :controller do
         before do
           sign_in user
           post_instance          
-        end        
+        end
 
         it '200レスポンスを返すこと' do
           get :edit, params: { id: post_instance.id }
@@ -190,7 +190,7 @@ RSpec.describe PostsController, type: :controller do
         before do
           sign_in user
           post_instance          
-        end        
+        end
 
         it '302レスポンスを返すこと' do
           patch :update, params: { id: post_instance.id, post: {image: post_instance.image, text: post_instance.text}}
@@ -222,7 +222,7 @@ RSpec.describe PostsController, type: :controller do
         before do
           sign_in user
           post_instance          
-        end        
+        end
 
         it '200レスポンスを返すこと' do          
           post :show, params: { id: post_instance.id }
