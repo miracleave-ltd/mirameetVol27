@@ -213,6 +213,7 @@ RSpec.describe PostsController, type: :controller do
   end
 
   describe '#showアクションテスト' do
+    subject { post :show, params: { id: post_instance.id } }
     context '投稿詳細' do
       context 'ログインしている場合' do
         before do
@@ -220,13 +221,13 @@ RSpec.describe PostsController, type: :controller do
           post_instance          
         end
 
-        it '200レスポンスを返すこと' do          
-          post :show, params: { id: post_instance.id }
+        it '200レスポンスを返すこと' do
+          subject
           expect(response.status).to eq 200
         end
 
-        it '正常にレスポンスを返すこと' do
-          post :show, params: { id: post_instance.id }
+        it '正常にレスポンスを返すこと' do          
+          subject
           expect(response).to be_successful
         end
       end
@@ -236,13 +237,13 @@ RSpec.describe PostsController, type: :controller do
           sign_out user
         end
 
-        it '302レスポンスを返すこと' do
-          post :show, params: { id: post_instance.id }
+        it '302レスポンスを返すこと' do          
+          subject
           expect(response.status).to eq 302
         end
 
-        it 'ログイン画面にリダイレクトされること' do
-          post :show, params: { id: post_instance.id }
+        it 'ログイン画面にリダイレクトされること' do          
+          subject
           expect(response).to redirect_to new_user_session_url
         end
       end
