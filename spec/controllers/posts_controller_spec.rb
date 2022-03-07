@@ -40,6 +40,7 @@ RSpec.describe PostsController, type: :controller do
   end
 
   describe '#newアクションテスト' do
+    subject { get :new }
     context '新規投稿' do
       context 'ログインしている場合' do
         before do
@@ -47,13 +48,13 @@ RSpec.describe PostsController, type: :controller do
           post_instance
         end
 
-        it '200レスポンスを返すこと' do
-          get :new
+        it '200レスポンスを返すこと' do          
+          subject
           expect(response.status).to eq 200
         end
 
-        it '正常にレスポンスを返すこと' do
-          get :new
+        it '正常にレスポンスを返すこと' do          
+          subject
           expect(response).to be_successful
         end
       end
@@ -62,12 +63,12 @@ RSpec.describe PostsController, type: :controller do
         before do
           sign_out user
         end
-        it '302レスポンスを返すこと' do
-          get :new
+        it '302レスポンスを返すこと' do          
+          subject
           expect(response.status).to eq 302
         end
-        it 'ログイン画面にリダイレクトされること' do
-          get :new
+        it 'ログイン画面にリダイレクトされること' do          
+          subject
           expect(response).to redirect_to new_user_session_url
         end
       end
