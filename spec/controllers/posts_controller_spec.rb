@@ -1,23 +1,167 @@
 require 'rails_helper'
 
 RSpec.describe PostsController, type: :controller do
-  describe '#showアクションテスト' do
-    context 'ユーザが存在する場合' do
-      let(:user) { create(:user) }
-      subject { get :show, params: { id: user.id } }
-
+  let(:user) { create(:user, nickname: 'kobato') }
+  let(:post_instance) { create(:post, user: user, text: 'PostRequestTest', image: 'https://example_image_url') }
+  describe '#indexアクションテスト' do
+    context '投稿一覧' do
       context 'ログインしている場合' do
         before do
           sign_in user
-        end
+          post_instance
+        end        
 
         it '200レスポンスを返すこと' do
-          subject
+          get :index
           expect(response.status).to eq 200
         end
 
         it '正常にレスポンスを返すこと' do
-          subject
+          get :index
+          expect(response).to be_successful
+        end
+      end
+
+      context 'ログインしていない場合' do
+        before do
+          sign_out user
+        end
+        it '302レスポンスを返すこと' do
+          get :index
+          expect(response.status).to eq 302
+        end
+        it 'ログイン画面にリダイレクトされること' do
+          get :index
+          expect(response).to redirect_to new_user_session_url
+        end
+      end
+    end
+  end
+
+  describe '#newアクションテスト' do
+    context '新規投稿' do
+      context 'ログインしている場合' do
+        before do
+          sign_in user
+          post_instance
+        end        
+
+        it '200レスポンスを返すこと' do
+          get :new
+          expect(response.status).to eq 200
+        end
+
+        it '正常にレスポンスを返すこと' do
+          get :new
+          expect(response).to be_successful
+        end
+      end
+
+      context 'ログインしていない場合' do
+        before do
+          sign_out user
+        end
+        it '302レスポンスを返すこと' do
+          get :new
+          expect(response.status).to eq 302
+        end
+        it 'ログイン画面にリダイレクトされること' do
+          get :new
+          expect(response).to redirect_to new_user_session_url
+        end
+      end
+    end
+  end
+
+  describe '#createアクションテスト' do
+    context '投稿新規登録' do
+      context 'ログインしている場合' do
+        before do
+          sign_in user
+          post_instance          
+        end        
+
+        it '302レスポンスを返すこと' do
+          post :create, params: {post: {image: post_instance.image, text: post_instance.text}}
+          expect(response.status).to eq 302
+        end
+
+        it '投稿一覧画面にリダイレクトされること' do
+          post :create, params: {post: {image: post_instance.image, text: post_instance.text}}
+          expect(response).to redirect_to posts_path
+        end
+      end
+
+      context 'ログインしていない場合' do
+        before do
+          sign_out user
+        end
+
+        it '302レスポンスを返すこと' do
+          post :create, params: {post: {image: post_instance.image, text: post_instance.text}}
+          expect(response.status).to eq 302
+        end
+
+        it 'ログイン画面にリダイレクトされること' do
+          post :create, params: {post: {image: post_instance.image, text: post_instance.text}}
+          expect(response).to redirect_to new_user_session_url
+        end
+      end
+    end
+  end
+
+  describe '#destroyアクションテスト' do
+    context '投稿削除' do
+      context 'ログインしている場合' do
+        before do
+          sign_in user
+          post_instance          
+        end        
+
+        it '302レスポンスを返すこと' do
+          delete :destroy, params: { id: post_instance.id }
+          expect(response.status).to eq 302
+        end
+
+        it '投稿一覧画面にリダイレクトされること' do
+          delete :destroy, params: { id: post_instance.id }
+          expect(response).to redirect_to posts_path
+        end
+      end
+
+      context 'ログインしていない場合' do
+        before do
+          sign_out user
+        end
+
+        it '302レスポンスを返すこと' do
+          delete :destroy, params: { id: post_instance.id }
+          expect(response.status).to eq 302
+        end
+
+        it 'ログイン画面にリダイレクトされること' do
+          delete :destroy, params: { id: post_instance.id }
+          expect(response).to redirect_to new_user_session_url
+        end
+      end
+    end
+  end
+
+  describe '#editアクションテスト' do
+    context '投稿編集' do
+      context 'ログインしている場合' do
+        before do
+          sign_in user
+          post_instance          
+        end        
+
+        it '200レスポンスを返すこと' do
+          get :edit, params: { id: post_instance.id }
+          expect(response.status).to eq 200
+        end
+
+        it '正常にレスポンスを返すこと' do
+          get :edit, params: { id: post_instance.id }
           expect(response).to be_successful
         end
       end
@@ -28,12 +172,81 @@ RSpec.describe PostsController, type: :controller do
         end
 
         it '302レスポンスを返すこと' do
-          subject
+          get :edit, params: { id: post_instance.id }
           expect(response.status).to eq 302
         end
 
         it 'ログイン画面にリダイレクトされること' do
-          subject
+          get :edit, params: { id: post_instance.id }
+          expect(response).to redirect_to new_user_session_url        
+        end
+      end
+    end
+  end
+
+  describe '#updateアクションテスト' do
+    context '投稿更新' do
+      context 'ログインしている場合' do
+        before do
+          sign_in user
+          post_instance          
+        end        
+
+        it '302レスポンスを返すこと' do
+          patch :update, params: { id: post_instance.id, post: {image: post_instance.image, text: post_instance.text}}
+          expect(response.status).to eq 302
+        end
+
+        it '投稿一覧画面にリダイレクトされること' do
+          patch :update, params: { id: post_instance.id, post: {image: post_instance.image, text: post_instance.text}}
+          expect(response).to redirect_to posts_path
+        end
+      end
+
+      context 'ログインしていない場合' do
+        before do
+          sign_out user
+        end
+
+        it '302レスポンスを返すこと' do
+          patch :update, params: { id: post_instance.id, post: {image: post_instance.image, text: post_instance.text}}
+          expect(response.status).to eq 302
+        end
+      end
+    end
+  end
+
+  describe '#showアクションテスト' do
+    context '投稿詳細' do
+      context 'ログインしている場合' do
+        before do
+          sign_in user
+          post_instance          
+        end        
+
+        it '200レスポンスを返すこと' do          
+          post :show, params: { id: post_instance.id }
+          expect(response.status).to eq 200
+        end
+
+        it '正常にレスポンスを返すこと' do
+          post :show, params: { id: post_instance.id }
+          expect(response).to be_successful
+        end
+      end
+
+      context 'ログインしていない場合' do
+        before do
+          sign_out user
+        end
+
+        it '302レスポンスを返すこと' do
+          post :show, params: { id: post_instance.id }
+          expect(response.status).to eq 302
+        end
+
+        it 'ログイン画面にリダイレクトされること' do
+          post :show, params: { id: post_instance.id }
           expect(response).to redirect_to new_user_session_url
         end
       end
