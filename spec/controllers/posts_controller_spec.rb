@@ -76,6 +76,7 @@ RSpec.describe PostsController, type: :controller do
   end
 
   describe '#createアクションテスト' do
+    subject { post :create, params: { post: { image: post_instance.image, text: post_instance.text } } }
     context '投稿新規登録' do
       context 'ログインしている場合' do
         before do
@@ -83,13 +84,13 @@ RSpec.describe PostsController, type: :controller do
           post_instance          
         end
 
-        it '302レスポンスを返すこと' do
-          post :create, params: {post: {image: post_instance.image, text: post_instance.text}}
+        it '302レスポンスを返すこと' do          
+          subject
           expect(response.status).to eq 302
         end
 
-        it '投稿一覧画面にリダイレクトされること' do
-          post :create, params: {post: {image: post_instance.image, text: post_instance.text}}
+        it '投稿一覧画面にリダイレクトされること' do          
+          subject
           expect(response).to redirect_to posts_path
         end
       end
@@ -99,13 +100,13 @@ RSpec.describe PostsController, type: :controller do
           sign_out user
         end
 
-        it '302レスポンスを返すこと' do
-          post :create, params: {post: {image: post_instance.image, text: post_instance.text}}
+        it '302レスポンスを返すこと' do          
+          subject
           expect(response.status).to eq 302
         end
 
-        it 'ログイン画面にリダイレクトされること' do
-          post :create, params: {post: {image: post_instance.image, text: post_instance.text}}
+        it 'ログイン画面にリダイレクトされること' do          
+          subject
           expect(response).to redirect_to new_user_session_url
         end
       end
