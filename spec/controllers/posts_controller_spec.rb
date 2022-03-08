@@ -71,8 +71,8 @@ RSpec.describe PostsController, type: :controller do
     end
   end
 
-  describe '#createアクションテスト' do
-    subject { post :create, params: { post: { image: post_instance.image, text: post_instance.text } } }
+  describe '#createアクションテスト' do    
+    subject { post :create, params: { post: { image: 'https://example_image_url', text: 'PostRequestTest' } } }
     context 'ログインしている場合' do
       before do
         sign_in user        
