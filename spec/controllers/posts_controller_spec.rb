@@ -75,8 +75,7 @@ RSpec.describe PostsController, type: :controller do
     subject { post :create, params: { post: { image: post_instance.image, text: post_instance.text } } }
     context 'ログインしている場合' do
       before do
-        sign_in user
-        post_instance          
+        sign_in user        
       end
 
       it '302レスポンスを返すこと' do
@@ -175,8 +174,7 @@ RSpec.describe PostsController, type: :controller do
   subject { patch :update, params: { id: post_instance.id, post: { image: post_instance.image, text: post_instance.text } } }
     context 'ログインしている場合' do
       before do
-        sign_in user
-        post_instance          
+        sign_in user        
       end
 
       it '302レスポンスを返すこと' do          
@@ -206,8 +204,7 @@ RSpec.describe PostsController, type: :controller do
     subject { post :show, params: { id: post_instance.id } }
     context 'ログインしている場合' do
       before do
-        sign_in user
-        post_instance          
+        sign_in user        
       end
 
       it '200レスポンスを返すこと' do
