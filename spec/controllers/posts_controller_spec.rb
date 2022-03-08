@@ -135,8 +135,7 @@ RSpec.describe PostsController, type: :controller do
     context '投稿編集' do
       context 'ログインしている場合' do
         before do
-          sign_in user
-          post_instance          
+          sign_in user          
         end
 
         it '200レスポンスを返すこと' do          
