@@ -40,8 +40,7 @@ RSpec.describe PostsController, type: :controller do
     subject { get :new }
     context 'ログインしている場合' do
       before do
-        sign_in user
-        post_instance
+        sign_in user        
       end
 
       it '200レスポンスを返すこと' do          
