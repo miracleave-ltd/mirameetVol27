@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe PostsController, type: :controller do
-  let(:user) { create(:user, nickname: 'kobato') }
+RSpec.describe PostsController, type: :controller do  
+  let(:user) { create(:user) }
   let(:post_instance) { create(:post, user: user, text: 'PostRequestTest', image: 'https://example_image_url') }
   describe '#indexアクションテスト' do
     subject { get :index }
