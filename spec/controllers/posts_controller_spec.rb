@@ -1,8 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe PostsController, type: :controller do  
-  let(:user) { create(:user) }
-  let(:post_instance) { create(:post, user: user, text: 'PostRequestTest', image: 'https://example_image_url') }
+  let(:user) { create(:user) }  
   describe '#indexアクションテスト' do
     subject { get :index }
     context 'ログインしている場合' do
@@ -100,6 +99,7 @@ RSpec.describe PostsController, type: :controller do
   end
 
   describe '#destroyアクションテスト' do
+    let(:post_instance) { create(:post, user: user, text: 'PostRequestTest', image: 'https://example_image_url') }
     subject { delete :destroy, params: { id: post_instance.id } }
     context 'ログインしている場合' do
       before do
@@ -131,6 +131,7 @@ RSpec.describe PostsController, type: :controller do
   end
 
   describe '#editアクションテスト' do
+    let(:post_instance) { create(:post, user: user, text: 'PostRequestTest', image: 'https://example_image_url') }
     subject { get :edit, params: { id: post_instance.id } }
     context '投稿編集' do
       context 'ログインしている場合' do
@@ -168,13 +169,14 @@ RSpec.describe PostsController, type: :controller do
   end
 
   describe '#updateアクションテスト' do
-  subject {
-     patch :update, 
-      params: { 
-        id: post_instance.id, 
-        post: { image: post_instance.image, text: post_instance.text }
-      }
-  }
+    let(:post_instance) { create(:post, user: user, text: 'PostRequestTest', image: 'https://example_image_url') }
+    subject {
+      patch :update, 
+        params: { 
+          id: post_instance.id, 
+          post: { image: post_instance.image, text: post_instance.text }
+        }
+    }
     context 'ログインしている場合' do
       before do
         sign_in user        
@@ -204,6 +206,7 @@ RSpec.describe PostsController, type: :controller do
   end
 
   describe '#showアクションテスト' do
+    let(:post_instance) { create(:post, user: user, text: 'PostRequestTest', image: 'https://example_image_url') }
     subject { post :show, params: { id: post_instance.id } }
     context 'ログインしている場合' do
       before do
