@@ -170,10 +170,10 @@ RSpec.describe PostsController, type: :controller do
   describe '#updateアクションテスト' do
   subject {
      patch :update, 
-     params: { 
-     id: post_instance.id, 
-     post: { image: post_instance.image, text: post_instance.text }
-     } 
+      params: { 
+        id: post_instance.id, 
+        post: { image: post_instance.image, text: post_instance.text }
+      }
   }
     context 'ログインしている場合' do
       before do
