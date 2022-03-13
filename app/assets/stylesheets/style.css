@@ -868,7 +868,7 @@ div.contents.row div.content_post {
   background-size: cover;
   background-position: center center;
   border-radius: 3px;
-  box-shadow: 0 0 10px rgba(41, 41, 41, 0.2);
+  box-shadow: 0 0 10px rgba(41, 40, 41, 0.2);
 }
 
 div.contents.row div.content_post:after {
