@@ -74,6 +74,7 @@ body {
  * Remove the gray background color from active links in IE 10. */
 a {
   background: transparent;
+  font-family: 'Sansita Swashed', cursive;
 }
 
 /*
@@ -994,11 +995,12 @@ form textarea {
 }
 
 form input[type="submit"] {
-  background-color: #57C3E9;
-  border-radius: 20px;
+  background-color: #0c280a;
+  border-radius: 3px;
   color: #fff;
   border: 0;
   font-size: 18px;
+  font-family: 'Sansita Swashed', cursive;
 }
 
 form input[type="submit"]:hover {
@@ -1011,6 +1013,7 @@ form input[type="submit"]:hover {
   box-shadow: 0 0 10px rgba(41, 41, 41, 0.2);
   background-color: white;
   box-sizing: border-box;
+  border-radius: 20px;
 }
 
 .container h3 {
