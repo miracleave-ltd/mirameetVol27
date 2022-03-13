@@ -14,9 +14,9 @@
 .header .logout_button {
   text-decoration: none;
   color: #fff;
-  background-color: rgb(0, 25, 138);
-  border-radius: 4px;
-  padding: 4px 6px;
+  background-color: rgb(132, 132, 134);
+  border-radius: 5px;
+  padding: 8px 12px;
 }
 
 .header .logout_button:hover {
