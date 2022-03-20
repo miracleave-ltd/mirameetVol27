@@ -49,14 +49,22 @@
 
 # 環境構築:Windows (※ミートアップ参加前に下記手順に従い、起動確認までお願いいたします。)
 ## 前提
-WSL2がinstallされている
+### 0-1.WSL2とUbuntuUbuntuがinstallされていること
+下記のURLを参考にして、installすること
 
 https://chigusa-web.com/blog/wsl2-win11/
 
-Docker Desktop for Windowsがinstallされている
+※wsl2のインストールで0x80370102 エラーが出たときの対処方法 
+https://monkey999por.hatenablog.com/entry/2020/10/01/221243
+
+
+### 0-2.Docker Desktop for Windowsがinstallされていること
+「Get Docker Desktop for Windows」ボタンをクリックしてexeファイルをダウンロードすること
 
 https://hub.docker.com/editions/community/docker-ce-desktop-windows/
 
+### 0-3.ダウンロード後、下記のURLを参考にして、exeファイルを実行すること
+「Install required Windows components for WSL2」にチェックが入っていることを確認する
 Docker Desktop for Windowsの設定 > Resources > WSL INTEGRATIONでUbuntuをチェック
 
 https://codeaid.jp/blog/docker-windowswsl2/
