@@ -59,7 +59,7 @@ https://monkey999por.hatenablog.com/entry/2020/10/01/221243
 
 
 ### 0-2.Docker Desktop for Windowsがinstallされていること
-「Get Docker Desktop for Windows」ボタンをクリックしてexeファイルをダウンロードすること
+下記URLの「Get Docker Desktop for Windows」ボタンをクリックしてexeファイルをダウンロードすること
 
 https://hub.docker.com/editions/community/docker-ce-desktop-windows/
 
