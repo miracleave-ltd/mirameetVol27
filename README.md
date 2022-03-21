@@ -66,6 +66,7 @@ https://hub.docker.com/editions/community/docker-ce-desktop-windows/
 
 ### 0-3.ダウンロード後、下記のURLを参考にして、exeファイルを実行すること
 「Install required Windows components for WSL2」にチェックが入っていることを確認する
+
 Docker Desktop for Windowsの設定 > Resources > WSL INTEGRATIONでUbuntuをチェック
 
 https://codeaid.jp/blog/docker-windowswsl2/
