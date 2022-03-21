@@ -49,7 +49,7 @@
 
 # 環境構築:Windows (※ミートアップ参加前に下記手順に従い、起動確認までお願いいたします。)
 ## 前提
-### 0-1.WSL2とUbuntuUbuntuがinstallされていること
+### 0-1.WSL2とUbuntuがinstallされていること
 下記のURLを参考にして、installすること
 
 https://chigusa-web.com/blog/wsl2-win11/
