@@ -19,7 +19,14 @@
 
 
 # 環境構築:macOS (※ミートアップ参加前に下記手順に従い、起動確認までお願いいたします。)
+## 前提
+### 0-1.Docker Desktop for Macがinstallされていること
+下記URLの「Get Docker Desktop for Macのダウンロード」からお使いのMacに合わせて、実行ファイルをダウンロードすること
 
+https://matsuand.github.io/docs.docker.jp.onthefly/desktop/mac/install/
+
+
+### ※これ以降の手順におけるコマンドはターミナル上で実施すること
 ### 1. git clone
 `git clone https://github.com/miracleave-ltd/mirameetVol28.git`
 
@@ -46,6 +53,7 @@
 ### 7. 起動の確認
 `localhost:3000`
 にアクセスして表示されれば、完了です。
+
 
 # 環境構築:Windows (※ミートアップ参加前に下記手順に従い、起動確認までお願いいたします。)
 ## 前提
