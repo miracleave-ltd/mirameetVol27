@@ -11,7 +11,7 @@ Resources:
       EnableDnsHostnames: 'true'
       Tags:
       - Key: Name
-        Value: mira
+        Value: mira-vpc
 
 #=================================
  # インターネットゲートウェイの作成
@@ -21,7 +21,7 @@ Resources:
     Properties:
       Tags:
       - Key: Name
-        Value: mira
+        Value: mira-igw
 
   miraAttachGateway:
     Type: "AWS::EC2::VPCGatewayAttachment"
@@ -39,7 +39,7 @@ Resources:
       SubnetId: !Ref miraSubnet01a
       Tags:
       - Key: Name
-        Value: mira-a
+        Value: mira-nat-a
 
   miraEIPNata:
     Type: "AWS::EC2::EIP"
