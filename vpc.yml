@@ -1,104 +1,244 @@
-Resources:
+AWSTemplateFormatVersion: "2010-09-09"
+Description:
+  VPC and Subnet Create
 
- #=================================
- # VPCの作成
- #=================================
-  miraVPC:
+Metadata:
+  "AWS::CloudFormation::Interface":
+    ParameterGroups:
+      - Label:
+          default: "Project Name Prefix"
+        Parameters:
+          - PJPrefix
+      - Label:
+          default: "Network Configuration"
+        Parameters:
+          - VPCCIDR
+          - PublicSubnetACIDR
+          - PrivateSubnetACIDR
+          - PrivateSubnetCCIDR
+    ParameterLabels:
+      VPCCIDR:
+        default: "VPC CIDR"
+      PublicSubnetACIDR:
+        default: "PublicSubnetA CIDR"
+      PrivateSubnetACIDR:
+        default: "PrivateSubnetA CIDR"
+      PrivateSubnetCCIDR:
+        default: "PrivateSubnetC CIDR"
+
+# ------------------------------------------------------------#
+# Input Parameters
+# ------------------------------------------------------------#
+Parameters:
+  PJPrefix:
+    Type: String
+
+  VPCCIDR:
+    Type: String
+    Default: "10.1.0.0/16"
+
+  PublicSubnetACIDR:
+    Type: String
+    Default: "10.1.10.0/24"
+
+  PrivateSubnetACIDR:
+    Type: String
+    Default: "10.1.100.0/24"
+
+  PrivateSubnetCCIDR:
+    Type: String
+    Default: "10.1.200.0/24"
+
+Resources:
+# ------------------------------------------------------------#
+#  VPC
+# ------------------------------------------------------------#
+# VPC Create
+  VPC:
     Type: "AWS::EC2::VPC"
     Properties:
-      CidrBlock: 10.0.0.0/16
-      EnableDnsSupport: 'true'
-      EnableDnsHostnames: 'true'
+      CidrBlock: !Ref VPCCIDR
+      EnableDnsSupport: "true"
+      EnableDnsHostnames: "true"
+      InstanceTenancy: default
       Tags:
-      - Key: Name
-        Value: mira-vpc
+        - Key: Name
+          Value: !Sub "${PJPrefix}-vpc"
 
-#=================================
- # インターネットゲートウェイの作成
- #=================================
-  miraInternetGateway:
+# InternetGateway Create
+  InternetGateway:
     Type: "AWS::EC2::InternetGateway"
     Properties:
       Tags:
-      - Key: Name
-        Value: mira-igw
+        - Key: Name
+          Value: !Sub "${PJPrefix}-igw"
 
-  miraAttachGateway:
+# IGW Attach
+  InternetGatewayAttachment:
     Type: "AWS::EC2::VPCGatewayAttachment"
     Properties:
-      InternetGatewayId: !Ref miraInternetGateway
-      VpcId: !Ref miraVPC
+      InternetGatewayId: !Ref InternetGateway
+      VpcId: !Ref VPC
 
- #=================================
- # NATゲートウェイの作成
- #=================================
-  miraNata:
-    Type: "AWS::EC2::NatGateway"
-    Properties:
-      AllocationId: !GetAtt miraEIPNata.AllocationId
-      SubnetId: !Ref miraSubnet01a
-      Tags:
-      - Key: Name
-        Value: mira-nat-a
-
-  miraEIPNata:
-    Type: "AWS::EC2::EIP"
-    Properties:
-      Domain: vpc
-
-#=================================
- # サブネットの作成
- #=================================
-  miraSubnet01a:
+# ------------------------------------------------------------#
+#  Subnet
+# ------------------------------------------------------------#
+# Public SubnetA Create
+  PublicSubnetA:
     Type: "AWS::EC2::Subnet"
     Properties:
       AvailabilityZone: "ap-northeast-1a"
-      CidrBlock: 10.0.0.0/24
+      CidrBlock: !Ref PublicSubnetACIDR
+      VpcId: !Ref VPC
       Tags:
-      - Key: Name
-        Value: subnet01a
-      VpcId: !Ref miraVPC
+        - Key: Name
+          Value: !Sub "${PJPrefix}-public-subnet-a"
 
-  miraSubnet02a:
+# Private SubnetA Create
+  PrivateSubnetA:
     Type: "AWS::EC2::Subnet"
     Properties:
       AvailabilityZone: "ap-northeast-1a"
-      CidrBlock: 10.0.1.0/24
+      CidrBlock: !Ref PrivateSubnetACIDR
+      VpcId: !Ref VPC
       Tags:
-      - Key: Name
-        Value: subnet02a
-      VpcId: !Ref miraVPC
+        - Key: Name
+          Value: !Sub "${PJPrefix}-private-subnet-a"
 
-  miraSubnet03a:
+# Private SubnetC Create
+  PrivateSubnetC:
     Type: "AWS::EC2::Subnet"
     Properties:
-      AvailabilityZone: "ap-northeast-1a"
-      CidrBlock: 10.0.2.0/24
+      AvailabilityZone: "ap-northeast-1c"
+      CidrBlock: !Ref PrivateSubnetCCIDR
+      VpcId: !Ref VPC
       Tags:
-      - Key: Name
-        Value: subnet03a
-      VpcId: !Ref miraVPC
+        - Key: Name
+          Value: !Sub "${PJPrefix}-private-subnet-c"
 
- #=================================
- # ルートテーブルの作成
- #=================================
-  miraRouteTable01:
+# ------------------------------------------------------------#
+#  RouteTable
+# ------------------------------------------------------------#
+# Public RouteTableA Create
+  PublicRouteTableA:
     Type: "AWS::EC2::RouteTable"
     Properties:
+      VpcId: !Ref VPC
       Tags:
-      - Key: Name
-        Value: mira01
-      VpcId: !Ref miraVPC
+        - Key: Name
+          Value: !Sub "${PJPrefix}-public-route-a"
 
-  miraRouteTableAssociation01a:
-    Type: "AWS::EC2::SubnetRouteTableAssociation"
+# Private RouteTableA Create
+  PrivateRouteTableA:
+    Type: "AWS::EC2::RouteTable"
     Properties:
-      RouteTableId: !Ref miraRouteTable01
-      SubnetId: !Ref miraSubnet01a
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: !Sub "${PJPrefix}-private-route-a"
 
-  miraRoute01:
+# Private RouteTableC Create
+  PrivateRouteTableC:
+    Type: "AWS::EC2::RouteTable"
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: !Sub "${PJPrefix}-private-route-c"
+
+# ------------------------------------------------------------#
+# Routing
+# ------------------------------------------------------------#
+# PublicRouteA Create
+  PublicRouteA:
     Type: "AWS::EC2::Route"
     Properties:
-      DestinationCidrBlock: 0.0.0.0/0
-      GatewayId: !Ref miraInternetGateway
-      RouteTableId: !Ref miraRouteTable01
+      RouteTableId: !Ref PublicRouteTableA
+      DestinationCidrBlock: "0.0.0.0/0"
+      GatewayId: !Ref InternetGateway
+
+# ------------------------------------------------------------#
+# RouteTable Associate
+# ------------------------------------------------------------#
+# PublicRouteTable Associate SubnetA
+  PublicSubnetARouteTableAssociation:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      SubnetId: !Ref PublicSubnetA
+      RouteTableId: !Ref PublicRouteTableA
+
+# PrivateRouteTable Associate SubnetA
+  PrivateSubnetARouteTableAssociation:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      SubnetId: !Ref PrivateSubnetA
+      RouteTableId: !Ref PrivateRouteTableA
+
+# PrivateRouteTable Associate SubnetC
+  PrivateSubnetCRouteTableAssociation:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      SubnetId: !Ref PrivateSubnetC
+      RouteTableId: !Ref PrivateRouteTableC
+
+# ------------------------------------------------------------#
+# Output Parameters
+# ------------------------------------------------------------#
+Outputs:
+# VPC
+  VPC:
+    Value: !Ref VPC
+    Export:
+      Name: !Sub "${PJPrefix}-vpc"
+
+  VPCCIDR:
+    Value: !Ref VPCCIDR
+    Export:
+      Name: !Sub "${PJPrefix}-vpc-cidr"
+
+# Subnet
+  PublicSubnetA:
+    Value: !Ref PublicSubnetA
+    Export:
+      Name: !Sub "${PJPrefix}-public-subnet-a"
+
+  PublicSubnetACIDR:
+    Value: !Ref PublicSubnetACIDR
+    Export:
+      Name: !Sub "${PJPrefix}-public-subnet-a-cidr"
+
+  PrivateSubnetA:
+    Value: !Ref PrivateSubnetA
+    Export:
+      Name: !Sub "${PJPrefix}-private-subnet-a"
+
+  PrivateSubnetACIDR:
+    Value: !Ref PrivateSubnetACIDR
+    Export:
+      Name: !Sub "${PJPrefix}-private-subnet-a-cidr"
+
+  PrivateSubnetC:
+    Value: !Ref PrivateSubnetC
+    Export:
+      Name: !Sub "${PJPrefix}-private-subnet-c"
+
+  PrivateSubnetCCIDR:
+    Value: !Ref PrivateSubnetCCIDR
+    Export:
+      Name: !Sub "${PJPrefix}-private-subnet-c-cidr"
+
+# Route
+  PublicRouteTableA:
+    Value: !Ref PublicRouteTableA
+    Export:
+      Name: !Sub "${PJPrefix}-public-route-a"
+
+  PrivateRouteTableA:
+    Value: !Ref PrivateRouteTableA
+    Export:
+      Name: !Sub "${PJPrefix}-private-route-a"
+
+  PrivateRouteTableC:
+    Value: !Ref PrivateRouteTableC
+    Export:
+      Name: !Sub "${PJPrefix}-private-route-c"
