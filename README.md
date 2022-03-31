@@ -8,10 +8,10 @@ https://matsuand.github.io/docs.docker.jp.onthefly/desktop/mac/install/
 
 ### ※これ以降の手順におけるコマンドはターミナル上で実施すること
 ### 1. git clone
-`git clone https://github.com/miracleave-ltd/mirameetVol28.git`
+`git clone https://github.com/miracleave-ltd/mirameetVol27.git`
 
 ###  2. ディレクトリ移動
-`cd mirameetVol28`
+`cd mirameetVol27`
 
 ###  3. ビルド
 `make build`
@@ -73,10 +73,10 @@ macOSと同じmakeコマンドを使用したい場合は、別途installする�
 `git config --global core.autocrlf input`
 
 ### 2. git clone
-`git clone https://github.com/miracleave-ltd/mirameetVol28.git`
+`git clone https://github.com/miracleave-ltd/mirameetVol27.git`
 
 ### 3. ディレクトリ移動
-`cd mirameetVol28`
+`cd mirameetVol27`
 
 ### 4. ビルド
 `docker-compose build`
