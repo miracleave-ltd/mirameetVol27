@@ -10,10 +10,10 @@ phases:
       - echo PRE_BUILD Start
       - docker-compose -f docker_compose_test.yml build
       - docker-compose -f docker_compose_test.yml run app rails webpacker:install
+      - docker-compose -f docker_compose_test.yml up -d
       - docker-compose -f docker_compose_test.yml run app rails db:create
       - docker-compose -f docker_compose_test.yml run app rails db:migrate
   build:
     commands:
       - echo BUILD start
-      - docker-compose -f docker_compose_test.yml up -d
       - docker-compose -f docker_compose_test.yml run app bundle exec rake spec
