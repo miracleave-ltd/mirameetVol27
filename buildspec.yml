@@ -13,4 +13,6 @@ phases:
     commands:
       - echo BUILD start
       - docker-compose -f docker_compose_test.yml up -d
+      - docker-compose -f docker_compose_test.yml run app rails bd:create
+      - docker-compose -f docker_compose_test.yml run app rails bd:migrate
       - docker-compose -f docker_compose_test.yml run app bundle exec rake spec
