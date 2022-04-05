@@ -16,6 +16,15 @@ https://matsuand.github.io/docs.docker.jp.onthefly/desktop/mac/install/
 ###  3. ビルド
 `make build`
 
+※万が一、下記のようなエラーが発生した場合は、xcodeがダウンロードされていない可能性があるため、参考記事を見て対応をお願いいたします。
+
+```
+xcrun: error: invalid active developer path (/Library/Developer/CommandLineTools), missing xcrun at: /Library/Developer/CommandLineTools/usr/bin/xcrun
+```
+
+[参考記事](https://qiita.com/kooohei/items/6aada548eeb785dd2c91)
+
+
 ### 4. webpakerのインストール
 
 `docker-compose run app rails webpacker:install`
