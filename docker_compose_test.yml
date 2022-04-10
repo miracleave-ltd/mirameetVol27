@@ -7,6 +7,8 @@ services:
       RDS_PASSWORD: ${RDS_PASSWORD}
       RDS_HOSTNAME: ${RDS_HOSTNAME}
       RDS_PORT: ${RDS_PORT}
+      CHANNEL_NAME: ${CHANNEL_NAME}
+      SLACK_WEBHOOK_URL: ${SLACK_WEBHOOK_URL}
     container_name: 'app'
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
     volumes:
