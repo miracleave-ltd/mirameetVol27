@@ -29,6 +29,10 @@ xcrun: error: invalid active developer path (/Library/Developer/CommandLineTools
 
 `docker-compose run app rails webpacker:install`
 
+途中、ファイル重複しているため、上書きするか聞かれる場合は全て「N」を入力してEnter
+![image](https://user-images.githubusercontent.com/54019059/162644031-57a772ab-50e7-4607-b635-b7f77b400c13.png)
+
+
 ### 5. docker containerをupする
 `make up`
 
@@ -104,6 +108,8 @@ macOSと同じmakeコマンドを使用したい場合は、別途installする�
 `rails webpacker:install`
 
 途中、ファイル重複しているため、上書きするか聞かれる場合は全て「N」を入力してEnter
+![image](https://user-images.githubusercontent.com/54019059/162644033-0f6f0117-ceb8-451f-8537-3ba5f9e8c09c.png)
+
 
 ### 8. db を作成
 `rails db:create`
