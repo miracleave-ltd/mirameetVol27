@@ -47,6 +47,11 @@ xcrun: error: invalid active developer path (/Library/Developer/CommandLineTools
 `localhost:3000`
 にアクセスして表示されれば、完了です。
 
+※画面表示時に`Webpacker::Manifest::MissingEntryError`のエラーが出た場合、
+No.4のwebpacker:installをしたか確認、していない場合は実行。それでも再度エラー、またはinstallしたのにエラーの場合は、下記コマンドを実行してください。
+
+`rails webpacker:compile`
+
 
 # 環境構築:Windows (※ミートアップ参加前に下記手順に従い、起動確認までお願いいたします。)
 ## 前提
@@ -120,6 +125,11 @@ macOSと同じmakeコマンドを使用したい場合は、別途installする�
 ブラウザで
 `localhost:3000`
 にアクセスする
+
+※画面表示時に`Webpacker::Manifest::MissingEntryError`のエラーが出た場合、
+No.のwebpacker:installをしたか確認、していない場合は実行。それでも再度エラー、またはinstallしたのにエラーの場合は、下記コマンドを実行してください。
+
+`rails webpacker:compile`
 
 ## 補足：　make コマンド
 ### コンテナ削除（ボリューム合わせて削除します。）
